@@ -1,0 +1,76 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\PageSection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class LandingPageTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_public_landing_renders_seeded_content(): void
+    {
+        $this->seed();
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Transforme sua presença digital em oportunidades reais de venda')
+            ->assertSee('Uma solução 360° para o seu crescimento')
+            ->assertSee('Quero agendar uma reunião');
+    }
+
+    public function test_public_landing_shows_only_summary_records_and_links_to_topic_pages(): void
+    {
+        $this->seed();
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Performance')
+            ->assertDontSee('Automação e CRM')
+            ->assertSee('/solucoes', false)
+            ->assertSee('/beneficios', false)
+            ->assertSee('/nichos', false)
+            ->assertSee('/perguntas-frequentes', false);
+    }
+
+    public function test_public_topic_pages_show_full_registered_content(): void
+    {
+        $this->seed();
+
+        $this->get('/solucoes')
+            ->assertOk()
+            ->assertSee('Automação e CRM')
+            ->assertSee('Consultoria Estratégica')
+            ->assertSee('/solucoes/automacao-e-crm', false);
+
+        $this->get('/perguntas-frequentes')
+            ->assertOk()
+            ->assertSee('Preciso ter um orçamento alto para começar?');
+    }
+
+    public function test_public_service_detail_page_shows_deep_content(): void
+    {
+        $this->seed();
+
+        $this->get('/solucoes/trafego-pago')
+            ->assertOk()
+            ->assertSee('Tráfego Pago')
+            ->assertSee('Meta Ads')
+            ->assertSee('Aquisição mais rápida');
+    }
+
+    public function test_public_landing_uses_uploaded_section_media(): void
+    {
+        $this->seed();
+
+        PageSection::query()
+            ->where('key', 'hero')
+            ->update(['media_path' => 'media/hero-custom.jpg']);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('storage/media/hero-custom.jpg');
+    }
+}

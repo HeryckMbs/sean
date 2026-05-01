@@ -1,0 +1,53 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: perfil_ads_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./public:/var/www/html/public
+      - storage_public:/var/www/html/storage/app/public
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: perfil_ads_nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-5555}:80"
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - storage_public:/var/www/html/storage/app/public:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: perfil_ads_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-perfil_ads}
+      POSTGRES_USER: ${DB_USERNAME:-perfil_ads}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-perfil_ads_secret}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-perfil_ads} -d ${DB_DATABASE:-perfil_ads}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  storage_public:
