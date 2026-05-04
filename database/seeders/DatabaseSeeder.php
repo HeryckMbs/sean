@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             ['email' => env('ADMIN_EMAIL', 'admin@perfildigitalads.com.br')],
             [
                 'name' => env('ADMIN_NAME', 'Administrador'),
-                'password' => env('ADMIN_PASSWORD', 'password'),
+                'password' => env('ADMIN_PASSWORD', ''),
             ],
         );
 

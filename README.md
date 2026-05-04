@@ -39,7 +39,14 @@ Veja ADMIN_PASSWORD no .env
 
 ## Publicar para teste em servidor
 
-1. Ajuste o `.env` antes de subir:
+1. Crie o `.env` no servidor:
+
+```bash
+cp .env.example .env
+sed -i "s#^APP_KEY=.*#APP_KEY=base64:$(openssl rand -base64 32)#" .env
+```
+
+2. Ajuste o `.env` antes de subir:
 
 ```dotenv
 APP_ENV=production
@@ -51,7 +58,9 @@ ADMIN_PASSWORD=senha-forte-para-o-cliente
 SEED_ON_FIRST_BOOT=true
 ```
 
-2. Suba os containers:
+`ADMIN_PASSWORD` é o valor usado para entrar no painel. Não digite `password` no terminal; isso era só a senha antiga de exemplo.
+
+3. Suba os containers:
 
 ```bash
 docker compose up -d --build
@@ -59,7 +68,7 @@ docker compose up -d --build
 
 O container da aplicação roda `migrate --force`, cria o link de storage e executa o seed somente no primeiro boot do volume, quando `SEED_ON_FIRST_BOOT=true`. Depois que o teste estiver criado, mantenha esse valor como `false` se quiser impedir qualquer seed automático em um novo volume.
 
-3. Libere a porta no servidor, se o firewall estiver ativo:
+4. Libere a porta no servidor, se o firewall estiver ativo:
 
 ```bash
 sudo ufw allow 5555/tcp
