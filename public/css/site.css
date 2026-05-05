@@ -34,23 +34,6 @@ a {
     color: var(--cyan);
 }
 
-@keyframes heroSweep {
-    0% {
-        opacity: 0;
-        transform: translateX(-18%);
-    }
-
-    45%,
-    60% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateX(18%);
-    }
-}
-
 @keyframes panelIn {
     from {
         opacity: 0;
@@ -306,31 +289,14 @@ body.animations-ready .reveal-target.is-visible {
 .hero-section {
     position: relative;
     overflow: hidden;
-    min-height: clamp(660px, calc(100vh - 76px), 820px);
+    min-height: clamp(500px, calc(74vh - 76px), 640px);
     display: flex;
     align-items: center;
-    padding: 74px 0 78px;
+    padding: clamp(64px, 9vw, 96px) 0 clamp(72px, 10vw, 104px);
     background:
-        linear-gradient(112deg, #020607 0%, #041113 48%, #062b33 100%);
-}
-
-.hero-section::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(115deg, transparent 0%, rgba(66, 199, 232, 0.08) 42%, transparent 66%);
-    mix-blend-mode: screen;
-    pointer-events: none;
-    animation: heroSweep 8s ease-in-out infinite;
-}
-
-.hero-section::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0;
-    height: 1px;
-    background: var(--line);
+        radial-gradient(circle at 82% 18%, rgba(66, 199, 232, 0.14), transparent 34%),
+        radial-gradient(circle at 10% 72%, rgba(66, 212, 152, 0.08), transparent 38%),
+        linear-gradient(180deg, #041113 0%, #031012 56%, var(--bg) 100%);
 }
 
 .hero-grid {
