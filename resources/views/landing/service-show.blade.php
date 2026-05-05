@@ -55,20 +55,6 @@
                     </div>
                 </div>
 
-                <aside class="service-summary-panel">
-                    <div class="card-icon"><i class="material-icons">{{ $service->icon ?: 'ads_click' }}</i></div>
-                    <h2>O que você encontra</h2>
-                    <dl class="service-summary-stats">
-                        <div>
-                            <dt>{{ count($service->deliverables ?? []) }}</dt>
-                            <dd>entregáveis cadastrados</dd>
-                        </div>
-                        <div>
-                            <dt>{{ count($service->benefits ?? []) }}</dt>
-                            <dd>benefícios práticos</dd>
-                        </div>
-                    </dl>
-                </aside>
             </div>
         </section>
 

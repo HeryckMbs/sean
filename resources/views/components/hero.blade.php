@@ -1,4 +1,4 @@
-@props(['section', 'settings', 'heroImageUrl', 'whatsappUrl', 'contactUrl' => null])
+@props(['section', 'settings', 'whatsappUrl', 'contactUrl' => null])
 
 @php
     $contactUrl = $contactUrl ?: route('home').'#contato';
@@ -18,20 +18,6 @@
                     </span>
                     <span>{{ $settings['secondary_cta_label'] ?? 'Falar no WhatsApp' }}</span>
                 </a>
-            </div>
-            <div class="hero-proofs" aria-label="Diferenciais">
-                <span>Foco em performance</span>
-                <span>Processos claros</span>
-                <span>Estratégias sob medida</span>
-                <span>Acompanhamento próximo</span>
-            </div>
-        </div>
-
-        <div class="hero-media">
-            <img src="{{ $heroImageUrl }}" alt="Reunião estratégica com dashboard de performance">
-            <div class="metric-strip">
-                <strong>Performance</strong>
-                <span>Campanhas, CRM, conversão e acompanhamento em um plano claro.</span>
             </div>
         </div>
     </div>

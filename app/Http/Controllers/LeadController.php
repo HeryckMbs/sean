@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\Service;
 use App\Models\SiteSetting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class LeadController extends Controller
 {
     public function store(Request $request): RedirectResponse|Response
     {
+        $serviceNames = Service::active()->pluck('name')->all();
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'company' => ['required', 'string', 'max:160'],
@@ -19,9 +23,15 @@ class LeadController extends Controller
             'phone' => ['required', 'string', 'max:40'],
             'whatsapp' => ['required', 'string', 'max:40'],
             'message' => ['nullable', 'string', 'max:2000'],
+            'service_interests' => ['nullable', 'array'],
+            'service_interests.*' => ['string', 'max:120', Rule::in($serviceNames)],
         ]);
 
         $settings = SiteSetting::values();
+        $validated['service_interests'] = collect($validated['service_interests'] ?? [])
+            ->filter()
+            ->values()
+            ->all() ?: null;
 
         Lead::create($validated + [
             'source' => 'landing',

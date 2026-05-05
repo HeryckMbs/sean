@@ -23,6 +23,8 @@
             <dd>{{ $lead->whatsapp }}</dd>
             <dt>Mensagem</dt>
             <dd>{{ $lead->message ?: 'Não informada' }}</dd>
+            <dt>Serviços de interesse</dt>
+            <dd>{{ collect($lead->service_interests)->filter()->implode(', ') ?: 'Não informado' }}</dd>
             <dt>Endpoint preparado</dt>
             <dd>{{ $lead->webhook_endpoint ?: 'Nenhum endpoint configurado' }}</dd>
             <dt>Recebido em</dt>

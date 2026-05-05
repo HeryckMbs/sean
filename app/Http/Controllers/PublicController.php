@@ -20,6 +20,7 @@ class PublicController extends Controller
     {
         return view('landing.index', $this->publicViewData() + [
             'services' => Service::active()->ordered()->take(4)->get(),
+            'formServices' => Service::active()->ordered()->get(),
             'benefits' => Benefit::active()->ordered()->take(4)->get(),
             'audiences' => TargetAudience::active()->ordered()->take(3)->get(),
             'workSteps' => WorkStep::active()->ordered()->take(3)->get(),

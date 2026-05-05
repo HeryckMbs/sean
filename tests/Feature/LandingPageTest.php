@@ -28,11 +28,27 @@ class LandingPageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('Performance')
-            ->assertDontSee('Automação e CRM')
+            ->assertDontSee('/solucoes/automacao-e-crm', false)
             ->assertSee('/solucoes', false)
             ->assertSee('/beneficios', false)
             ->assertSee('/nichos', false)
             ->assertSee('/perguntas-frequentes', false);
+    }
+
+    public function test_public_landing_shows_optional_service_interest_choices(): void
+    {
+        $this->seed();
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('name="service_interests[]"', false)
+            ->assertSee('Performance')
+            ->assertSee('Inbound Marketing')
+            ->assertSee('Tráfego Pago')
+            ->assertSee('Consultoria Estratégica')
+            ->assertSee('Automação e CRM')
+            ->assertSee('SEO')
+            ->assertSee('Sites e Landing Pages');
     }
 
     public function test_public_topic_pages_show_full_registered_content(): void
@@ -57,11 +73,12 @@ class LandingPageTest extends TestCase
         $this->get('/solucoes/trafego-pago')
             ->assertOk()
             ->assertSee('Tráfego Pago')
+            ->assertDontSee('O que você encontra')
             ->assertSee('Meta Ads')
             ->assertSee('Aquisição mais rápida');
     }
 
-    public function test_public_landing_uses_uploaded_section_media(): void
+    public function test_public_landing_does_not_render_hero_media(): void
     {
         $this->seed();
 
@@ -71,6 +88,6 @@ class LandingPageTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('storage/media/hero-custom.jpg');
+            ->assertDontSee('storage/media/hero-custom.jpg');
     }
 }

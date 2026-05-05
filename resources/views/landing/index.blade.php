@@ -32,8 +32,8 @@
             : '#contato';
         $logoUrl = $assetUrl($settings['logo_path'] ?? null);
         $sectionMediaUrl = fn (string $key): ?string => $assetUrl($sections->get($key)?->media_path);
-        $heroImageUrl = $sectionMediaUrl('hero') ?? $assetUrl($settings['hero_image'] ?? 'images/hero-performance-meeting.png');
         $contactUrl = $contactUrl ?? route('home').'#contato';
+        $selectedServiceInterests = collect(old('service_interests', []))->filter()->values()->all();
     @endphp
 
     <x-header
@@ -48,7 +48,6 @@
         <x-hero
             :section="$sections->get('hero')"
             :settings="$settings"
-            :hero-image-url="$heroImageUrl"
             :whatsapp-url="$whatsappUrl"
             :contact-url="$contactUrl"
         />
@@ -86,11 +85,12 @@
                     @endforeach
                 </div>
 
-                @if ($services->isNotEmpty())
-                    <div class="section-actions center-align">
+                <div class="section-actions section-actions--stacked center-align">
+                    <a class="btn btn-primary" href="{{ $contactUrl }}">{{ $settings['primary_cta_label'] ?? 'Quero agendar uma reunião' }}</a>
+                    @if ($services->isNotEmpty())
                         <a class="btn btn-secondary" href="{{ route('services.index') }}">Ver todas as soluções</a>
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </section>
 
@@ -287,6 +287,27 @@
                         <label for="message">Mensagem opcional</label>
                         @error('message') <span class="helper-text red-text">{{ $message }}</span> @enderror
                     </div>
+                    @if (($formServices ?? collect())->isNotEmpty())
+                        <fieldset class="service-interest-field">
+                            <legend>Tipo de serviço que busca <span>opcional</span></legend>
+                            <div class="service-interest-grid">
+                                @foreach ($formServices as $formService)
+                                    <label class="service-interest-option">
+                                        <input
+                                            class="filled-in"
+                                            type="checkbox"
+                                            name="service_interests[]"
+                                            value="{{ $formService->name }}"
+                                            @checked(in_array($formService->name, $selectedServiceInterests, true))
+                                        >
+                                        <span>{{ $formService->name }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('service_interests') <span class="helper-text red-text">{{ $message }}</span> @enderror
+                            @error('service_interests.*') <span class="helper-text red-text">{{ $message }}</span> @enderror
+                        </fieldset>
+                    @endif
                     <button class="btn btn-primary btn-large full-width" type="submit">
                         <span class="button-label">{{ $settings['primary_cta_label'] ?? 'Quero agendar uma reunião' }}</span>
                         <span class="loading-label">Enviando...</span>

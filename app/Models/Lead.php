@@ -13,6 +13,7 @@ class Lead extends Model
         'phone',
         'whatsapp',
         'message',
+        'service_interests',
         'source',
         'utm_source',
         'utm_medium',
@@ -24,6 +25,9 @@ class Lead extends Model
 
     protected function casts(): array
     {
-        return ['metadata' => 'array'];
+        return [
+            'metadata' => 'array',
+            'service_interests' => 'array',
+        ];
     }
 }

@@ -23,15 +23,38 @@
             M.Sidenav.init(document.querySelectorAll('.sidenav'));
             M.Tabs.init(document.querySelectorAll('.tabs'), { swipeable: false });
             M.Collapsible.init(document.querySelectorAll('.collapsible'));
+            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+            document.querySelectorAll('a[href*="#"]').forEach(function (link) {
                 if (link.closest('.tabs')) return;
 
                 link.addEventListener('click', function (event) {
-                    var target = document.querySelector(this.getAttribute('href'));
+                    var href = this.getAttribute('href');
+                    if (!href || href === '#') return;
+
+                    var linkUrl;
+                    try {
+                        linkUrl = new URL(href, window.location.href);
+                    } catch (error) {
+                        return;
+                    }
+
+                    var currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+                    var linkPath = linkUrl.pathname.replace(/\/$/, '') || '/';
+                    if (linkUrl.origin !== window.location.origin || linkPath !== currentPath || !linkUrl.hash) return;
+
+                    var target = document.querySelector(linkUrl.hash);
                     if (!target) return;
                     event.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    var sidenav = link.closest('.sidenav');
+                    var sidenavInstance = sidenav ? M.Sidenav.getInstance(sidenav) : null;
+                    if (sidenavInstance) {
+                        sidenavInstance.close();
+                    }
+
+                    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+                    history.pushState(null, '', linkUrl.hash);
                 });
             });
 
@@ -72,7 +95,6 @@
             ].join(',');
 
             var revealTargets = Array.prototype.slice.call(document.querySelectorAll(revealSelectors));
-            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
             if (!reduceMotion && 'IntersectionObserver' in window && revealTargets.length) {
                 document.body.classList.add('animations-ready');
