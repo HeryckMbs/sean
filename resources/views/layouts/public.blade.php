@@ -69,15 +69,12 @@
 
             var revealSelectors = [
                 '.hero-copy > *',
-                '.hero-media',
                 '.section-media',
                 '.section-title',
-                '.differential-item',
                 '.service-card',
                 '.topic-card',
                 '.topic-detail',
                 '.topic-hero-actions',
-                '.service-summary-panel',
                 '.service-main-copy',
                 '.service-list-block',
                 '.service-cta-grid',

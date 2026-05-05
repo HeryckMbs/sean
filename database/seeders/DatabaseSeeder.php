@@ -50,7 +50,6 @@ class DatabaseSeeder extends Seeder
         $settings = [
             ['brand_name', 'geral', 'Nome da marca', 'Perfil Digital Ads', 'text', 1],
             ['logo_path', 'geral', 'Logo', 'images/logo-perfil-digital-ads-nav-transparent.png', 'image', 2],
-            ['hero_image', 'geral', 'Imagem principal', 'images/hero-performance-meeting.png', 'image', 3],
             ['whatsapp_number', 'contato', 'Número do WhatsApp', '5591999999999', 'text', 1],
             ['whatsapp_message', 'contato', 'Mensagem do WhatsApp', 'Olá, vim pelo site da Perfil Digital Ads e quero agendar uma reunião estratégica.', 'textarea', 2],
             ['lead_webhook_url', 'contato', 'Endpoint futuro do formulário', null, 'url', 3],

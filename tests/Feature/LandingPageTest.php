@@ -74,11 +74,13 @@ class LandingPageTest extends TestCase
             ->assertOk()
             ->assertSee('Tráfego Pago')
             ->assertDontSee('O que você encontra')
+            ->assertDontSee('service-summary-panel', false)
+            ->assertDontSee('entregáveis cadastrados')
             ->assertSee('Meta Ads')
             ->assertSee('Aquisição mais rápida');
     }
 
-    public function test_public_landing_does_not_render_hero_media(): void
+    public function test_public_landing_does_not_render_hero_media_or_micro_proofs(): void
     {
         $this->seed();
 
@@ -86,8 +88,19 @@ class LandingPageTest extends TestCase
             ->where('key', 'hero')
             ->update(['media_path' => 'media/hero-custom.jpg']);
 
+        PageSection::query()
+            ->where('key', 'sobre')
+            ->update(['media_path' => 'media/about-custom.jpg']);
+
         $this->get('/')
             ->assertOk()
-            ->assertDontSee('storage/media/hero-custom.jpg');
+            ->assertDontSee('storage/media/hero-custom.jpg')
+            ->assertDontSee('storage/media/about-custom.jpg')
+            ->assertDontSee('images/hero-performance-meeting.png', false)
+            ->assertDontSee('Foco em performance')
+            ->assertDontSee('Processos claros')
+            ->assertDontSee('Estratégias sob medida')
+            ->assertDontSee('Acompanhamento próximo')
+            ->assertDontSee('Campanhas, CRM, conversão e acompanhamento em um plano claro.');
     }
 }

@@ -60,17 +60,6 @@
                         <p class="section-body">{{ $sections->get('sobre')->body }}</p>
                     @endif
                 </div>
-                <div class="section-side-stack">
-                    <x-section-media :url="$sectionMediaUrl('sobre')" :alt="$sections->get('sobre')?->title" />
-                    <div class="differentials-grid">
-                        @foreach (['Foco em performance', 'Processos claros', 'Acompanhamento estratégico', 'Decisões com base em dados', 'Foco no retorno'] as $item)
-                            <div class="differential-item">
-                                <i class="material-icons">check_circle</i>
-                                <span>{{ $item }}</span>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
             </div>
         </section>
 

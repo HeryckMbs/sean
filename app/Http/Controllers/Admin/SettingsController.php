@@ -15,7 +15,12 @@ class SettingsController extends Controller
     public function edit(): View
     {
         return view('admin.settings.edit', [
-            'settings' => SiteSetting::query()->orderBy('group')->orderBy('sort_order')->get()->groupBy('group'),
+            'settings' => SiteSetting::query()
+                ->where('key', '!=', 'hero_image')
+                ->orderBy('group')
+                ->orderBy('sort_order')
+                ->get()
+                ->groupBy('group'),
             'definitions' => $this->definitions(),
         ]);
     }
@@ -58,7 +63,6 @@ class SettingsController extends Controller
         return [
             'brand_name' => ['label' => 'Nome da marca', 'type' => 'text'],
             'logo_path' => ['label' => 'Logo', 'type' => 'image'],
-            'hero_image' => ['label' => 'Imagem principal', 'type' => 'image'],
             'whatsapp_number' => ['label' => 'Número do WhatsApp', 'type' => 'text'],
             'whatsapp_message' => ['label' => 'Mensagem do WhatsApp', 'type' => 'textarea'],
             'lead_webhook_url' => ['label' => 'Endpoint futuro do formulário', 'type' => 'url'],
