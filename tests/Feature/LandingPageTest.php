@@ -18,6 +18,7 @@ class LandingPageTest extends TestCase
             ->assertOk()
             ->assertSee('Transforme sua presença digital em oportunidades reais de venda')
             ->assertSee('Uma solução 360° para o seu crescimento')
+            ->assertSee('steps-row steps-row--summary', false)
             ->assertSee('Quero agendar uma reunião');
     }
 

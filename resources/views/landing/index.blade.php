@@ -125,7 +125,7 @@
             <div class="container-wide">
                 <x-section-title :section="$sections->get('processo')" align="center" />
                 <x-section-media :url="$sectionMediaUrl('processo')" :alt="$sections->get('processo')?->title" wide />
-                <div class="steps-row">
+                <div class="steps-row steps-row--summary">
                     @foreach ($workSteps as $step)
                         <article class="step-item">
                             <span>{{ $step->step_label }}</span>

@@ -106,8 +106,12 @@ body.animations-ready .reveal-target.is-visible {
 }
 
 .site-brand.brand-logo {
+    display: flex;
+    align-items: center;
     position: static;
     transform: none;
+    height: 76px;
+    line-height: 1;
 }
 
 .site-brand {
@@ -121,6 +125,7 @@ body.animations-ready .reveal-target.is-visible {
 }
 
 .site-brand img {
+    display: block;
     width: min(184px, 42vw);
     max-height: 60px;
     object-fit: contain;
@@ -1073,6 +1078,13 @@ body.animations-ready .reveal-target.is-visible {
     gap: 14px;
 }
 
+.steps-row--summary {
+    width: min(100%, 720px);
+    margin-right: auto;
+    margin-left: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .step-item {
     padding: 22px;
 }
@@ -1506,11 +1518,28 @@ body.animations-ready .reveal-target.is-visible {
 
     .hero-section {
         min-height: auto;
-        padding: 52px 0 58px;
+        padding: 44px 0 46px;
+        background:
+            radial-gradient(circle at 50% 8%, rgba(66, 199, 232, 0.16), transparent 42%),
+            linear-gradient(180deg, #041113 0%, #031012 58%, var(--bg) 100%);
     }
 
     .hero-grid {
-        gap: 38px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero-copy {
+        width: 100%;
+        max-width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+    }
+
+    .hero-copy .eyebrow {
+        justify-content: center;
+        width: 100%;
     }
 
     .hero-actions,
@@ -1532,12 +1561,21 @@ body.animations-ready .reveal-target.is-visible {
     }
 
     .hero-copy h1 {
-        font-size: 2.45rem;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: clamp(2.05rem, 10vw, 2.45rem);
     }
 
     .hero-copy p {
+        margin-right: auto;
+        margin-left: auto;
         max-width: 100%;
         font-size: 1rem;
+    }
+
+    .hero-actions {
+        width: 100%;
+        margin-bottom: 0;
     }
 
     .hero-actions .btn {
@@ -1545,6 +1583,12 @@ body.animations-ready .reveal-target.is-visible {
         align-items: center;
         justify-content: center;
         width: 100%;
+    }
+
+    .section-split .section-title,
+    .section-split .section-body {
+        max-width: 100%;
+        text-align: center;
     }
 
     .page-section {
